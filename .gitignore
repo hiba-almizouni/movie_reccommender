@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node.js
+node_modules/
+
+# Environment files
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model files
+*.h5
+*.keras
+*.pkl
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+models/intent_model/model.safetensors

@@ -1,0 +1,10 @@
+const r=require('express').Router();
+const {protect}=require('../middleware/auth');
+const {Profile}=require('../models/Favorites');
+r.use(protect);
+r.post('/',async(req,res)=>{try{res.status(201).json({profile:await Profile.create({...req.body,owner:req.user._id})});}catch(e){res.status(500).json({error:'Failed'});}});
+r.get('/',async(req,res)=>{try{res.json({profiles:await Profile.find({owner:req.user._id})});}catch(e){res.status(500).json({error:'Failed'});}});
+r.put('/:id',async(req,res)=>{try{const p=await Profile.findOneAndUpdate({_id:req.params.id,owner:req.user._id},req.body,{new:true});res.json({profile:p});}catch(e){res.status(500).json({error:'Failed'});}});
+r.delete('/:id',async(req,res)=>{try{await Profile.findOneAndDelete({_id:req.params.id,owner:req.user._id});res.json({message:'Deleted'});}catch(e){res.status(500).json({error:'Failed'});}});
+r.get('/:id/history',async(req,res)=>{try{const p=await Profile.findOne({_id:req.params.id,owner:req.user._id});res.json({history:p?.watchHistory||[]});}catch(e){res.status(500).json({error:'Failed'});}});
+module.exports=r;

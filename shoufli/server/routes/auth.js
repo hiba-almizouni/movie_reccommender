@@ -1,0 +1,15 @@
+const r=require('express').Router();
+const {body}=require('express-validator');
+const {protect}=require('../middleware/auth');
+const c=require('../controllers/authController');
+r.post('/register',[body('username').trim().isLength({min:3}),body('email').isEmail(),body('password').isLength({min:6}),body('age').isInt({min:1})],c.register);
+r.post('/login',c.login);
+r.get('/me',protect,c.getMe);
+r.put('/theme',protect,c.updateTheme);
+r.put('/lang',protect,c.updateLang);
+r.post('/verify-email',protect,c.verifyEmail);
+r.post('/resend-verification',protect,c.resendVerification);
+r.post('/forgot-password',c.forgotPassword);
+r.post('/reset-password/:token',c.resetPassword);
+r.post('/verify-pin',protect,c.verifyPin);
+module.exports=r;
